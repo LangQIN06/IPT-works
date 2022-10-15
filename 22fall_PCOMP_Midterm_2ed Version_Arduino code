@@ -1,0 +1,61 @@
+#include <Servo.h>
+
+//define a servo:
+Servo AServo;
+int servoAPin=9;
+Servo BServo;
+int servoBPin=8;
+
+//define pushbuttons and the input value of each button:
+byte button[4] = {2, 3, 4, 5};
+byte buttonStates[4] = {0, 0, 0, 0};
+byte buttonPressed[4] = {0, 0, 0, 0};
+byte value[4] = {1000, 2000, 3000, 4000};
+int i = 0;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(8, OUTPUT);
+  AServo.attach(servoAPin);
+  BServo.attach(servoBPin);
+}
+
+void loop() {
+  //listen for serial, parse the values, chance as needed:
+
+  if (Serial.available() > 0) {
+    //if I get a numeric value, set count =value;
+    delay(10);
+    for (int i = 0; i < 4; i++) {
+      if ( buttonStates[i] != digitalRead(button[i])) {
+        buttonStates[i] = {digitalRead(button[i])};
+        //Serial.println(value[i]);
+        if (buttonStates[i] == HIGH) {
+          Serial.println({value[i]});
+          buttonPressed[i]++;
+          delay(10);
+        }
+      }
+    }
+  }
+  // loop over the buttons, looking for change:
+  // A win, trigger B's web
+  for (int i = 0; i < 4; i++) {
+    //if button changes count times{
+    if (buttonPressed[0] >= 10 && buttonPressed[1] >= 10) {
+      //digitalWrite(8, HIGH);
+      BServo.write(180);
+    } else {
+      BServo.write(0);
+      }
+    // B win, trigger A's web
+    if (buttonPressed[2] >= 10 && buttonPressed[3] >= 10) {
+      AServo.write(180);
+    } else {
+      AServo.write(0);
+      }
+  }
+  //send the state of all the buttons to p5
+  //Serial.println(value[i]);
+  Serial.println(buttonPressed[i]);
+}
