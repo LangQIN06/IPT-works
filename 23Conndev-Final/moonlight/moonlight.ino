@@ -16,8 +16,8 @@ int port = 443;
 String API = "9602c416-dc8e-11ed-bc36-0242ac130002-9602c498-dc8e-11ed-bc36-0242ac130002";  // get your api at aqair.com
 //376d28fc-dd55-11ed-a138-0242ac130002-376d296a-dd55-11ed-a138-0242ac130002
 
-// const long requestInterval = 120000;  //1 hour
-// long lastRequestTime = 0;
+const long requestInterval = 120000;  //
+long lastRequestTime = 0;
 
 // make a wifi instance and a HttpClient instance:
 WiFiSSLClient wifi;
@@ -54,10 +54,10 @@ void setup() {
 
 void loop() {
 
-  // if (millis() - lastRequestTime > requestInterval) {
+  if (millis() - lastRequestTime > requestInterval) {
   getData();
-  // }
-  // delay(2000);
+  }
+  
 }
 
 void loop1() {
@@ -201,9 +201,9 @@ void getData() {
     }
   }
 
-  delay(21600000);
+ 
   // client.stop();
-  // lastRequestTime = millis();
+  lastRequestTime = millis();
 }
 
 
