@@ -18,8 +18,8 @@ HttpClient client = HttpClient(wifi, serverAddress, port);
 // HttpClient client1 = HttpClient(wifi, serverAddress1, port);
 int status = WL_IDLE_STATUS;
 
-// const long requestInterval = 10000; // 6 minutes;
-// long lastRequestTime = 0;
+const long requestInterval = 360000; // 6 minutes;
+long lastRequestTime = 0;
 
 float tide;
 
@@ -60,9 +60,9 @@ void setup() {
 
 void loop() {
 
-  // if (millis() - lastRequestTime > requestInterval) {
+  if (millis() - lastRequestTime > requestInterval) {
   getData();
-  // }
+  }
 }
 
 void loop1() {
@@ -136,10 +136,10 @@ void getData() {
   // // convert the string to int
   tide = valueS.toFloat();
   Serial.println(tide);
-  delay(360000);
+  
 
   // client.stop();
-  // lastRequestTime = millis();
+  lastRequestTime = millis();
 }
 
 void connectWifi() {
