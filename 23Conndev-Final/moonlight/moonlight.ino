@@ -13,8 +13,8 @@ CRGB leds[NUM_LEDS];
 
 const char serverAddress[] = "api.stormglass.io";  // server address
 int port = 443;
-String API = "9602c416-dc8e-11ed-bc36-0242ac130002-9602c498-dc8e-11ed-bc36-0242ac130002";  // get your api at aqair.com
-//376d28fc-dd55-11ed-a138-0242ac130002-376d296a-dd55-11ed-a138-0242ac130002
+String API = "bjknjlphgygh";  // get your api at aqair.com
+
 
 const long requestInterval = 120000;  //
 long lastRequestTime = 0;
