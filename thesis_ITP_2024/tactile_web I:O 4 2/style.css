@@ -1,0 +1,359 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f3f6fa;
+}
+
+/* 使用Flexbox对齐左侧面板和主内容区域 */
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+#leftPanel {
+  flex: 1;
+  background-color: #ffffff;
+  padding: 20px;
+  /* height: 100vh; */
+  text-align: center;
+  padding: 20px;
+  transition: all 0.3s ease; /* Keep the smooth transition */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Slightly lighter shadow for subtlety */
+}
+
+p {
+  color: rgb(0, 0, 0);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.panel-content {
+  display: none;
+  text-align: left;
+  font-size: 18px;
+  color: rgb(0, 0, 0);
+}
+
+.panel-content.active {
+  display: block;
+}
+
+.panel-content img {
+  max-width: 100%; /* 确保图片不会超出容器宽度 */
+  height: auto; /* 保持图片原始宽高比 */
+  margin: 0 auto; /* 图片居中 */
+  display: block; /* 使图片独占一行 */
+}
+
+.main-content {
+  flex: 4;
+  background-color: #ffffff;
+  text-align: center;
+  padding: 20px; /* 为了一致性，可能需要添加padding */
+  transition: all 0.3s ease; /* Keep the smooth transition */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Slightly lighter shadow for subtlety */
+}
+
+/* 清除浮动的样式可能不再需要，但如果其他部分使用了浮动，可以保留 */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.servo-controls-container-angle {
+  display: flex;
+  justify-content: space-between;
+}
+
+.servo-controls-container-other {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.servo-control {
+  flex: 1; /* 使两个控制区域平均分配空间 */
+  padding: 10px; /* 添加一些内边距以便更好的视觉效果 */
+}
+
+.control-with-image {
+  display: flex;
+  align-items: center; /* 垂直居中 */
+}
+
+.angle-controls {
+  flex-grow: 1; /* 使控件占据多余空间 */
+  text-align: left;
+}
+
+.servo-image {
+  width: 200px; /* 调整图片大小 */
+  height: auto; /* 保持图片的宽高比 */
+  margin-left: 10px; /* 与控件之间的间距 */
+}
+
+button {
+  background-color: #4caf50; /* Green */
+  color: white;
+  padding: 8px 16px; /* Further reduced padding for a slimmer look */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px; /* Even smaller font size for a more delicate appearance */
+  border: 2px solid transparent; /* Retain the border */
+  border-radius: 15px; /* More pronounced rounded corners */
+  transition: all 0.3s ease; /* Keep the smooth transition */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Slightly lighter shadow for subtlety */
+  margin: 4px; /* Added margin for better spacing around the button */
+}
+
+button:hover,
+button:focus {
+  background-color: #45a049; /* Slightly darker green on hover/focus */
+
+  transform: translateY(-1px); /* Keep the subtle lift effect */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* Slightly increased shadow on hover for depth */
+}
+
+button:active {
+  transform: translateY(1px); /* Keep the push down effect on click */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Keep the reduced shadow on click */
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.servo-control {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  display: inline-block;
+}
+
+.option-select {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+  gap: 10px;
+}
+
+.preset-option {
+  flex-grow: 1;
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  margin: 0px;
+  min-width: 100px;
+  border-radius: 5px;
+}
+
+.preset-option:hover,
+.preset-option.selected {
+  background-color: #4caf50; /* 鼠标悬停和选中状态为绿色 */
+}
+
+/* 添加这个类到选中的按钮 */
+.preset-option.selected {
+  background-color: #2f7a33; /* 选中状态为绿色 */
+}
+
+/* 设备状态显示区域样式 */
+.device-status-container {
+  display: flex;
+  justify-content: space-between; /* 在主轴上平均分布 */
+  align-items: center; /* 在交叉轴上居中对齐 */
+  padding: 10px;
+  width: 95%;
+}
+
+#deviceMessage {
+  flex: 1; /* 使设备状态消息占用剩余空间 */
+  background-color: #e9ecef; /* 浅灰色背景 */
+  border: 1px solid #dee2e6; /* 边框 */
+  border-radius: 5px; /* 边框圆角 */
+  padding: 10px; /* 内边距 */
+  min-height: 15px; /* 增加最小高度 */
+  margin: 0 10px; /* 与其他元素保持一定的间距 */
+}
+
+.record-list-container {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center; /* 确保按钮居中 */
+  margin-top: 20px; /* 与主内容区域的间距 */
+  background-color: #d7e2ee; /* 背景色 */
+  border-radius: 5px; /* 边框圆角 */
+  transition: all 0.3s ease; /* Keep the smooth transition */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Slightly lighter shadow for subtlety */
+}
+
+.recordCheckbox {
+  margin-right: 10px; /* 复选框和内容之间添加一些间距 */
+}
+
+#historyList {
+  list-style-type: none; /* 移除列表项的默认样式 */
+  padding-left: 0; /* 移除默认的内边距 */
+  margin-bottom: 20px; /* 为按钮提供一些空间 */
+}
+
+.record-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f9f9f9;
+  border: 1px solid #e1e1e1;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.record-name {
+  font-weight: bold;
+}
+
+.record-details {
+  margin-left: 10px;
+  flex-grow: 1;
+}
+
+/* Generate, Apply, Merge and Apply按钮 */
+.generateBtn,
+.applyBtn,
+#mergeAndApplyButton {
+  background-color: #388e3c; /* 深绿色 */
+  color: white;
+}
+
+/* Save按钮 */
+#saveSettings1,
+#saveSettings2,
+#saveSettingsBoth {
+  background-color: #34a4e1; /* 蓝色 */
+  color: white;
+}
+
+/* Record按钮 */
+#recordBtnBoth,
+#recordBtn1,
+#recordBtn2 {
+  background-color: #f19021; /* 橙色 */
+  color: white;
+}
+
+/* Delete按钮 */
+.deleteBtn {
+  background-color: #d32f2f; /* 红色 */
+  color: white;
+}
+
+.deleteBtn:hover {
+  background-color: #c62828; /* 更深的红色，或者您可以选择您喜欢的颜色 */
+  color: white; /* 保持文字颜色不变 */
+  border-color: #fff; /* 如果需要，可以调整边框颜色 */
+  /* 如果不希望有变化效果，下面这两行可以省略 */
+  transform: translateY(-1px); /* 如果您想保持悬停时的微小上移效果 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* Slightly increased shadow on hover for depth */
+}
+
+/* 共通样式 */
+.generateBtn,
+.applyBtn,
+#mergeAndApplyButton,
+.saveBtn,
+.recordBtn,
+.deleteBtn {
+  padding: 10px 16px;
+  border: none;
+
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 5px;
+}
+
+.generateBtn:hover,
+.applyBtn:hover,
+#mergeAndApplyButton:hover,
+.saveBtn:hover,
+.recordBtn:hover,
+.deleteBtn:hover {
+  opacity: 0.9;
+}
+
+.generateBtn:active,
+.applyBtn:active,
+#mergeAndApplyButton:active,
+.saveBtn:active,
+.recordBtn:active,
+.deleteBtn:active {
+  transform: translateY(2px);
+}
+
+#mergeAndApplyButton {
+  position: center;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+/* 简化的滑块样式 */
+input[type="range"] {
+  appearance: none; /* 移除默认的样式 */
+  margin: 10px 0; /* 添加一些上下边距 */
+  width: 50%; /* 滑块长度调整为50% */
+  height: 8px; /* 滑动轨道的高度 */
+  background: #ddefde; /* 滑动轨道的背景颜色 */
+  outline: none; /* 移除轮廓线 */
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* 移除默认的样式 */
+  appearance: none;
+  width: 20px; /* 滑块的宽度 */
+  height: 20px; /* 滑块的高度 */
+  background: #4caf50; /* 滑块的背景颜色 */
+  cursor: pointer; /* 鼠标悬停时的光标样式 */
+  border-radius: 50%; /* 圆形滑块 */
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px; /* 滑块的宽度 */
+  height: 20px; /* 滑块的高度 */
+  background: #4caf50; /* 滑块的背景颜色 */
+  cursor: pointer; /* 鼠标悬停时的光标样式 */
+  border-radius: 50%; /* 圆形滑块 */
+}
+
+/* 滑块轨道的样式 (Firefox) */
+input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 8px;
+  background: #e8f5e9;
+}
+
+/* 滑块轨道的样式 (IE) */
+input[type="range"]::-ms-track {
+  width: 100%;
+  height: 8px;
+  background: #e8f5e9;
+}
+
+.slider-value {
+  display: inline-block;
+  min-width: 3ch; /* 这里使用了字符单位ch，3ch大约能容纳三个数字字符的宽度 */
+  text-align: center; /* 确保数字在容器中居中显示 */
+}

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tactile Feedback Generator</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    
+    <h1>Tactile Feedback Generator</h1>
+
+    <div class="option-select">
+      <button id="optionA" class="preset-option">Tap</button>
+      <button id="optionB" class="preset-option">Squeeze</button>
+      <button id="optionD" class="preset-option">Tremble</button>
+      <button id="optionE" class="preset-option">Shake</button>
+      <button id="optionC" class="preset-option">Rub</button>
+      <button id="optionF" class="preset-option">Vibrate</button>
+    </div>
+
+
+    <div class="flex-container">
+
+      <div id="leftPanel">
+        <h2>Module Introduction</h2>
+        <div id="contentABDE" class="panel-content">
+          <p>Note: Please swap in the <span style="color: red; font-weight: bold;"><i>180-degree</i></span> servo module.</p>
+          <img src="img/180Intro.png" class="Intro-180-body" alt="180-body"><br>
+          <img src="img/180round.png" class="Intro-180-tactors" alt="180-tactors"><br>
+          <img src="img/180sharp.png" class="Intro-180-tactors" alt="180-tactors">
+        </div>
+        <div id="contentCF" class="panel-content">
+          <p>Note: Please swap in the <span style="color: red; font-weight: bold;"><i>linear</i></span> servo module.</p>
+          <img src="img/linearIntro.png" class="Intro-linear-body" alt="linear-body"><br>
+          <img src="img/linearround.png" class="Intro-linear-tactors" alt="linear-tactors"><br>
+          <img src="img/linearsharp.png" class="Intro-linear-tactors" alt="linear-tactors">
+        </div>
+      </div>
+      
+
+      <div class="main-content">
+      <div class="servo-control">
+      <h2>Both Tactors Generation</h2>
+      <button id="saveSettingsBoth">Save for Both Tactors</button>
+      <button id="generateBoth">Generate for Both Tactors</button>
+      <div class="naming-section">
+        <label for="recordName">Name:</label>
+        <input
+          type="text"
+          id="recordName"
+          placeholder="Enter name for record"
+        />
+        <button id="recordBtnBoth">Record</button>
+      </div> 
+    <br />
+
+    <div class="servo-controls-container-angle">
+      <div class="servo-control">
+
+      <h2>Left Tactor</h2>
+      <div class="control-with-image">
+        <div class="angle-controls">
+      <label
+        >Start Angle:
+        <input
+          type="range"
+          id="startAngle1"
+          min="0"
+          max="180"
+          value="0"
+          step="10"
+          oninput="updateValueDisplay('startAngle1')"
+        />
+        <span class="slider-value" id="startAngle1Display">0</span>
+      </label>
+      <br />
+      <label
+        >End Angle:
+        <input
+          type="range"
+          id="endAngle1"
+          min="0"
+          max="180"
+          value="90"
+          step="10"
+          oninput="updateValueDisplay('endAngle1')"
+        />
+        <span class="slider-value" id="endAngle1Display">60</span>
+      </label>
+    </div>
+    <img src="img/left.jpg" class="servo-image left" alt="Servo Left Image">
+    </div>
+  </div>
+
+    <div class="servo-control">
+      <h2>Right Tactor</h2>
+      <div class="control-with-image">
+        <div class="angle-controls">
+      <label
+        >Start Angle:
+        <input
+          type="range"
+          id="startAngle2"
+          min="0"
+          max="180"
+          value="180"
+          step="10"
+          oninput="updateValueDisplay('startAngle2')"
+        />
+        <span class="slider-value" id="startAngle2Display">180</span>
+      </label>
+      <br />
+      <label
+        >End Angle:
+        <input
+          type="range"
+          id="endAngle2"
+          min="0"
+          max="180"
+          value="90"
+          step="10"
+          oninput="updateValueDisplay('endAngle2')"
+        />
+        <span class="slider-value" id="endAngle2Display">120</span>
+      </label>
+    </div>
+    <img src="img/right.jpg" class="servo-image right" alt="Servo Right Image">
+</div>
+</div>
+</div>
+
+
+<label><input type="checkbox" id="mirrorMode"> Mirror Mode</label>
+
+
+  <div class="servo-controls-container-other">
+    <div class="servo-control">
+     <label
+        >Speed:
+        <input
+          type="range"
+          id="speed1"
+          min="1"
+          max="1000"
+          value="500"
+          step="100"
+          oninput="updateValueDisplay('speed1')"
+        />
+        <span id="speed1Display">500</span>
+      </label>
+      <br />
+      <label
+        >Times:
+        <input type="range" id="times1" min="1" max="1000" value="1" />
+        <span id="times1Display">1</span>
+      </label>
+      <br />
+      <label
+        >Direction Interval 1:
+        <input
+          type="range"
+          id="directionInterval1"
+          min="0"
+          max="10000"
+          step="50"
+          value="50"
+          oninput="updateValueDisplay('directionInterval1')"
+        />
+        <span id="directionInterval1Display">50</span>
+      </label>
+      <br />
+      <label
+        >Loop Interval 1:
+        <input
+          type="range"
+          id="loopInterval1"
+          min="0"
+          max="10000"
+          step="50"
+          value="200"
+          oninput="updateValueDisplay('loopInterval1')"
+        />
+        <span id="loopInterval1Display">200</span>
+      </label>
+      <br />
+      <button id="saveSettings1">Save</button>
+      <button id="generate1">Generate</button>
+      <br />
+      <label for="recordName1">Name:</label>
+      <input
+        type="text"
+        id="recordName1"
+        placeholder="Enter name for Left Tactor settings"
+      />
+      <button id="recordBtn1">Record</button>
+    </div>
+
+    <div class="servo-control">
+      <label
+        >Speed:
+        <input
+          type="range"
+          id="speed2"
+          min="1"
+          max="1000"
+          step="100"
+          value="500"
+          oninput="updateValueDisplay('speed2')"
+        />
+        <span id="speed2Display">500</span>
+      </label>
+      <br />
+      <label
+        >Times:
+        <input type="range" id="times2" min="1" max="1000" value="1" />
+        <span id="times2Display">1</span>
+      </label>
+      <br />
+      <label
+        >Direction Interval 2:
+        <input
+          type="range"
+          id="directionInterval2"
+          min="0"
+          max="10000"
+          step="50"
+          value="50"
+          oninput="updateValueDisplay('directionInterval2')"
+        />
+        <span id="directionInterval2Display">50</span>
+      </label>
+      <br />
+      <label
+        >Loop Interval 2:
+        <input
+          type="range"
+          id="loopInterval2"
+          min="0"
+          max="10000"
+          step="50"
+          value="200"
+          oninput="updateValueDisplay('loopInterval2')"
+        />
+        <span id="loopInterval2Display">200</span>
+      </label>
+      <br />
+      <button id="saveSettings2">Save</button>
+      <button id="generate2">Generate</button>
+      <br />
+      <label for="recordName2">Name:</label>
+      <input
+        type="text"
+        id="recordName2"
+        placeholder="Enter name for Right Tactor settings"
+      />
+      <button id="recordBtn2">Record</button>
+    </div>
+  </div>
+
+ <!-- 设备状态显示区域 -->
+ <div class="device-status-container">
+  <h3>Device Status</h3>
+  <div id="deviceMessage">Operational</div>
+  <button id="okButton">OK</button>
+</div>
+
+</div>
+</div>
+</div>
+
+  <div class="record-list-container">
+    <h3>Record List</h2>
+    <ul id="historyList"></ul>
+    <!-- 模板 -->
+    <template id="historyItemTemplate">
+      <li>
+        <input type="checkbox" class="recordCheckbox">
+        Start Angle 1:
+        <span class="startAngle1Display"></span>
+        End Angle 1:
+        <span class="endAngle1Display"></span>
+        Speed 1:
+        <span class="speed1Display"></span>
+        Times 1:
+        <span class="times1Display"></span>
+        Direction Interval 1:
+        <span class="directionInterval1Display"></span>
+        Loop Interval 1:
+        <span class="loopInterval1Display"></span>
+        <br />
+        Start Angle 2:
+        <span class="startAngle2Display"></span>
+        End Angle 2:
+        <span class="endAngle2Display"></span>
+        Speed 2:
+        <span class="speed2Display"></span>
+        Times 2:
+        <span class="times2Display"></span>
+        Direction Interval 2:
+        <span class="directionInterval2Display"></span>
+        Loop Interval 2:
+        <span class="loopInterval2Display"></span>
+        <button class="applyBtn">Apply</button>
+        <button class="deleteBtn">Delete</button>
+      </li>
+    </template>
+    <button id="mergeAndApplyButton">Merge and Apply</button>
+  </div>
+
+
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
