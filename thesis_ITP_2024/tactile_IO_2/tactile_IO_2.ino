@@ -2,7 +2,7 @@
 #include <ArduinoMqttClient.h>
 #include <Wire.h>
 #include <Servo.h>
-#include <ArduinoJson.h>  // 引入ArduinoJson库
+#include <ArduinoJson.h>  
 #include "arduino_secrets.h"
 
 
@@ -25,7 +25,7 @@ String macAddr;
 
 //define OUTPUT;
 int LED_PIN = 3;
-int NETWORK_LED_PIN = 4;  // 定义网络状态指示LED的引脚为4
+int NETWORK_LED_PIN = 4;  // network
 int SERVO_PIN = 9;
 int SERVO_PIN_2 = 10;
 Servo myServo;
@@ -33,16 +33,16 @@ Servo myServo2;
 int brightness = 5; 
 
 //error
-int buttonPin = 2;                    // 假设按钮连接到数字脚3
-volatile bool buttonPressed = false;  // 使用volatile关键字，因为这个变量会在中断服务程序中被修改
+int buttonPin = 2;                    // button
+volatile bool buttonPressed = false;  // volatile
 
 // // ACS712设置
-// const int analogInPin = A0;  // ACS712连接到A0
+// const int analogInPin = A0;  // ACS712-A0
 // float sensorValue = 0;
 // float current = 0;
 // unsigned long lastTime = 0;
-// unsigned long interval = 100;  // 检测间隔，300毫秒/200ms
-// int lastSensorValue = 0;       // 存储上一次的sensorValue
+// unsigned long interval = 100;  
+// int lastSensorValue = 0;       // last sensorValue
 // int threshold = 35;
 
 void setup() {
@@ -54,11 +54,11 @@ void setup() {
   myServo.attach(SERVO_PIN);
   myServo2.attach(SERVO_PIN_2);
 
-  // 设置servos初始位置
-  myServo.write(0);     // servo1设置为0度
-  myServo2.write(180);  // servo2设置为180度
+  // servos original position
+  myServo.write(0);     // servo1-0
+  myServo2.write(180);  // servo2-180
 
-  attachInterrupt(digitalPinToInterrupt(buttonPin), handleButtonPress, FALLING);  // 假设按钮使用上升沿触发
+  attachInterrupt(digitalPinToInterrupt(buttonPin), handleButtonPress, FALLING);  
 
   // wait for serial monitor to open:
   if (!Serial) delay(3000);
@@ -99,12 +99,12 @@ void loop() {
 
 
   if (buttonPressed) {
-    // 执行按钮按下后的操作
+    // press button
     sendButtonPressMessage();
-    buttonPressed = false;  // 重置标志
+    buttonPressed = false;  // reset
   }
 
-  // // 检查是否需要读取并打印电流
+  // // check current and read
   // checkAndPrintCurrent();
 }
 
@@ -115,7 +115,7 @@ void handleButtonPress() {
 
 void sendButtonPressMessage() {
   DynamicJsonDocument doc(256);
-  doc["error"] = 1;  // 假设当按钮被按下时，我们发送一个错误状态"1"
+  doc["error"] = 1;  // when pressed button, send error 1
   String output;
   serializeJson(doc, output);
 
@@ -128,45 +128,12 @@ void sendButtonPressMessage() {
 }
 
 void blinkLED() {
-  digitalWrite(LED_PIN, brightness);  // 打开LED
-  delay(500);                   // 保持100毫秒
-  digitalWrite(LED_PIN, LOW);   // 关闭LED
-  delay(500);                   // 等待100毫秒
+  digitalWrite(LED_PIN, brightness);  // LED
+  delay(500);                   
+  digitalWrite(LED_PIN, LOW);   
+  delay(500);                   
 }
 
-
-// void checkAndPrintCurrent() {
-//   unsigned long currentTime = millis();
-//   if (currentTime - lastTime >= interval) {
-//     readAndPrintCurrent();
-//     lastTime = currentTime;
-//   }
-// }
-
-// void readAndPrintCurrent() {
-//   sensorValue = analogRead(analogInPin);
-//   int currentState = (abs(sensorValue - lastSensorValue) > threshold) ? 1 : 0;
-
-//   // // 打印到串口监视器
-//   // Serial.print("Sensor Value: ");
-//   // Serial.println(sensorValue);
-//   // Serial.println(currentState ? "1" : "0");
-
-//   // 仅当currentState为1时，准备并发送MQTT消息
-//   if (currentState == 1) {
-//     // 准备MQTT消息
-//     DynamicJsonDocument doc(256);
-//     doc["sensorValue"] = sensorValue;
-//     doc["currentState"] = currentState;
-//     String output;
-//     serializeJson(doc, output);
-
-//     // 发送MQTT消息
-//     mqttUpdate(topic + "/servo1/status", output);
-//   }
-
-//   lastSensorValue = sensorValue;  // 更新sensorValue
-// }
 
 
 // publish a message to a topic:
@@ -228,35 +195,13 @@ void onMqttMessage(int messageSize) {
   Serial.print("Received message: ");
   Serial.println(incoming);
 
-  // // 处理消息
-  // if (incoming == "LED OFF") {
-  //   analogWrite(LED_PIN, 0);  // 关闭LED
-  // } else if (incoming.startsWith("LED BRIGHTNESS ")) {
-  //   int brightness = incoming.substring(15).toInt();
-  //   analogWrite(LED_PIN, brightness);  // 调整LED亮度
-  // }
 
-  DynamicJsonDocument doc(4096);  // 增加JSON文档大小以容纳更大的消息
+  DynamicJsonDocument doc(4096);  // JSON size
   deserializeJson(doc, incoming);
 
-  // // 根据消息类型处理消息
-  // // if (mqttClient.messageTopic() == topic + "/settings/update") {
-  // // 检查并更新 threshold 和 interval
-  // if (doc.containsKey("threshold")) {
-  //   threshold = doc["threshold"].as<int>();
-  //   Serial.print("Updated threshold: ");
-  //   Serial.println(threshold);
-  // }
-  // if (doc.containsKey("interval")) {
-  //   interval = doc["interval"].as<unsigned long>();
-  //   Serial.print("Updated interval: ");
-  //   Serial.println(interval);
-  // }
-  // // }
-
-  // 检查是否为嵌套数组
+  // check loop
   if (doc.is<JsonArray>() && doc[0].is<JsonArray>()) {
-    // 处理嵌套数组
+    // loop
     JsonArray actionGroups = doc.as<JsonArray>();
     for (JsonArray actionGroup : actionGroups) {
       // for (JsonObject action : actionGroup) {
@@ -280,14 +225,14 @@ void onMqttMessage(int messageSize) {
         int directionInterval2 = servo2["directionInterval"];
         int loopInterval2 = servo1["loopInterval"];
 
-        // 控制两个伺服电机
+        // control TWO servos
         controlServos(servoId1, startAngle1, endAngle1, speed1, times1, directionInterval1, loopInterval1,
                       servoId2, startAngle2, endAngle2, speed2, times2, directionInterval2, loopInterval2);
       // }
       delay(500);
     }
   } else if (doc.is<JsonArray>()) {
-    // 处理单层数组
+    // single array
     JsonArray actionArray = doc.as<JsonArray>();
     for (JsonObject action : actionArray) {
       int servoId = action["servoId"];
@@ -298,17 +243,17 @@ void onMqttMessage(int messageSize) {
       int directionInterval = action["directionInterval"];
       int loopInterval = action["loopInterval"];
 
-      // 调用控制单个伺服电机的函数
+      // call function of single servo
       controlSingleServo(servoId, startAngle, endAngle, speed, times, directionInterval, loopInterval);
       delay(500);
     }
   }
 }
 
-// 控制两个伺服电机的函数（同步移动，添加速度控制，保留往返移动）
+// Function to control two servos (synchronous movement, add speed control, retain round-trip movement)
 void controlServos(int id1, int start1, int end1, int speed1, int times1, int directionInterval1, int loopInterval1,
                    int id2, int start2, int end2, int speed2, int times2, int directionInterval2, int loopInterval2) {
-  // 在发送指令前后闪烁LED
+  // blink after sending command
   blinkLED();
 
   Servo &servo1 = (id1 == 0) ? myServo : myServo2;
@@ -320,16 +265,16 @@ void controlServos(int id1, int start1, int end1, int speed1, int times1, int di
     for (int i = 0; i < max(times1, times2); i++) {
       if (i < times1) {
         moveServoSync(servo1, servo2, start1, end1, speed1, start2, end2, speed2);
-        delay(directionInterval1);  // 方向间隔
+        delay(directionInterval1);  // direction interval
         moveServoSync(servo1, servo2, end1, start1, speed1, end2, start2, speed2);
       } else if (i < times2) {
         moveServoSync(servo1, servo2, start1, start1, speed1, start2, end2, speed2);
-        delay(directionInterval2);  // 方向间隔
+        delay(directionInterval2);  // direction interval
         moveServoSync(servo1, servo2, start1, start1, speed1, end2, start2, speed2);
       }
 
       if (i < max(times1, times2) - 1) {
-        delay(max(loopInterval1, loopInterval2));  // 循环间隔
+        delay(max(loopInterval1, loopInterval2));  // loop interval
       }
     }
   }
@@ -338,22 +283,22 @@ void controlServos(int id1, int start1, int end1, int speed1, int times1, int di
     for (int j = 0; j < max(times1, times2); j++) {
       if (j < times2) {
         moveServoSync(servo1, servo2, start1, end1, speed1, start2, end2, speed2);
-        delay(directionInterval1);  // 方向间隔
+        delay(directionInterval1);  // direction interval
         moveServoSync(servo1, servo2, end1, start1, speed1, end2, start2, speed2);
       } else if (j < times1) {
         moveServoSync(servo1, servo2, start1, start1, speed1, start2, end2, speed2);
-        delay(directionInterval2);  // 方向间隔
+        delay(directionInterval2);  // direction interval
         moveServoSync(servo1, servo2, start1, start1, speed1, end2, start2, speed2);
       }
 
       if (j < max(times1, times2) - 1) {
-        delay(max(loopInterval1, loopInterval2));  // 循环间隔
+        delay(max(loopInterval1, loopInterval2));  // loop interval
       }
     }
   }
 }
 
-// 同步移动两个伺服电机的辅助函数
+// auxiliary function for moving two servos synchronously
 void moveServoSync(Servo &servo1, Servo &servo2, int startAngle1, int endAngle1, int speed1,
                    int startAngle2, int endAngle2, int speed2) {
   int step1 = (endAngle1 > startAngle1) ? 1 : -1;
@@ -370,17 +315,17 @@ void moveServoSync(Servo &servo1, Servo &servo2, int startAngle1, int endAngle1,
       servo2.write(pos2);
       pos2 += step2;
     }
-    delay(min(1000 / speed1, 1000 / speed2));  // 根据两个伺服电机的速度决定延迟
+    delay(min(1000 / speed1, 1000 / speed2));  
   }
   servo1.write(endAngle1);
   servo2.write(endAngle2);
 }
 
 
-// 控制单个伺服电机的函数（默认往返移动，带速度控制）
+//  control a single servo motor (default round trip, with speed control)
 void controlSingleServo(int servoId, int startAngle, int endAngle, int speed, int times, int directionInterval, int loopInterval) {
 
-  // 在发送指令前后闪烁LED
+  // blink after sending command
   blinkLED();
 
   Servo &selectedServo = (servoId == 0) ? myServo : myServo2;
@@ -388,24 +333,24 @@ void controlSingleServo(int servoId, int startAngle, int endAngle, int speed, in
 
   for (int i = 0; i < times; i++) {
     moveServo(selectedServo, startAngle, endAngle, speed);
-    delay(directionInterval);  // 在两个方向之间的延迟
+    delay(directionInterval);  // delay between opposite directions
     moveServo(selectedServo, endAngle, startAngle, speed);
 
     if (i < times - 1) {
-      delay(loopInterval);  // 在下一次循环之前的延迟
+      delay(loopInterval);  // delay before next loop
     }
   }
 }
 
 
-// 移动伺服电机的辅助函数（带速度控制）
+// Auxiliary functions for servos (with speed control)
 void moveServo(Servo &servo, int startAngle, int endAngle, int speed) {
   int step = (endAngle > startAngle) ? 1 : -1;
   for (int pos = startAngle; pos != endAngle; pos += step) {
     servo.write(pos);
-    delay(1000 / speed);  // 速度控制
+    delay(1000 / speed);  // speed control
   }
-  servo.write(endAngle);  // 确保到达终点
+  servo.write(endAngle);  // ensure stop at destination
 }
 
 
@@ -416,22 +361,22 @@ void connectToNetwork() {
   Serial.println("Attempting to connect to network...");
 
   while (WiFi.status() != WL_CONNECTED) {
-    // 每隔500毫秒切换LED状态，以实现闪烁效果
+    // blink
     if (millis() - blinkTime > 100) {
       blinkTime = millis();
       ledState = !ledState;
       digitalWrite(NETWORK_LED_PIN, ledState ? HIGH : LOW);
     }
 
-    // 尝试连接到WiFi网络
+    // connect to wifi
     if (WiFi.begin(SECRET_SSID, SECRET_PASS) == WL_CONNECTED) {
-      break;  // 如果连接成功，则退出循环
+      break;  
     }
 
-    delay(100);  // 稍微等待，避免过于频繁的连接尝试
+    delay(100);  
   }
 
-  // 一旦连接成功，将LED设置为常亮
+  // LED turn on if successed
   digitalWrite(NETWORK_LED_PIN, HIGH);
   Serial.print("Connected. My IP address: ");
   Serial.println(WiFi.localIP());
