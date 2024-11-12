@@ -75,13 +75,13 @@ function updateValueDisplay(elementId) {
 
 
 function updateSavedSettings(preset, optionId) {
-    // 保存亮度设置
+    // save the setted brightness
     optionSettings[optionId] = {
         servo1: {...preset.servo1},
         servo2: {...preset.servo2}
     };
 
-    // 更新UI
+    // update UI
     updateServoUI('1', preset.servo1);
     updateServoUI('2', preset.servo2);
 }
@@ -94,7 +94,7 @@ function updateServoUI(servoNumber, settings) {
     startAngleInput.value = settings.startAngle.value;
     document.getElementById(`startAngle${servoNumber}Display`).textContent = settings.startAngle.value;
 
-    // 判断是哪个servo，然后相应地更新显示值
+    // which servo it is and update the display values
     if (servoNumber === '1') {
         document.getElementById(`startAngle${servoNumber}Display`).textContent = settings.startAngle.value;
     } else if (servoNumber === '2') {
@@ -107,7 +107,7 @@ function updateServoUI(servoNumber, settings) {
     endAngleInput.value = settings.endAngle.value;
     document.getElementById(`endAngle${servoNumber}Display`).textContent = settings.endAngle.value;
 
-     // 判断是哪个servo，然后相应地更新显示值
+     // which servo it is and update the display values
      if (servoNumber === '1') {
         document.getElementById(`endAngle${servoNumber}Display`).textContent = settings.endAngle.value;
     } else if (servoNumber === '2') {
@@ -144,24 +144,24 @@ function updateServoUI(servoNumber, settings) {
   document.querySelectorAll('.preset-option').forEach(button => {
     button.addEventListener('click', function() {
 
-// 获取左侧面板的引用
+// Get left panel 引用
 var leftPanel = document.getElementById('leftPanel');
 
-// 隐藏所有内容区域
+// hide all content
 document.querySelectorAll('.panel-content').forEach(content => {
     content.classList.remove('active');
   });
     
-// 根据点击的按钮更新左侧面板的内容
+// update left panel when clicking
 if (['optionA', 'optionB', 'optionD', 'optionE'].includes(this.id)) {
-  // 如果点击的是Option A, B, D, 或 E
+  // if Option A, B, D, or E
   document.getElementById('contentABDE').classList.add('active');
   document.querySelector('.servo-image.left').src = images.ABDE.left; 
   document.querySelector('.servo-image.right').src = images.ABDE.right; 
 } else if (['optionC', 'optionF'].includes(this.id)) {
-  // 如果点击的是Option C 或 F
+  // if Option C or F
   document.getElementById('contentCF').classList.add('active');
-  // 更新图片
+  // update img
   document.querySelector('.servo-image.left').src = images.CF.left; 
   document.querySelector('.servo-image.right').src = images.CF.right; 
 }
@@ -639,96 +639,6 @@ function saveSettingsToLocalStorage(settings) {
     reloadHistoryList(); // 确保记录列表是最新的
 }
 
-
-// function updateHistoryList(settings, index) {
-//     const historyList = document.getElementById('historyList');
-//     const listItem = document.createElement('li');
-
-// // 显示记录名称（如果有）
-// if (settings.servo1 && settings.servo1.name) {
-//     listItem.innerHTML += `<strong>${settings.servo1.name}</strong><br>`;
-// } else if (settings.servo2 && settings.servo2.name) {
-//     listItem.innerHTML += `<strong>${settings.servo2.name}</strong><br>`;
-// }
-
-//     // 在列表项中显示记录名称
-//     if (settings.name) {
-//         listItem.innerHTML += `<strong>${settings.name}</strong><br>`; // 显示名称
-//     }
-
-//     // 添加设置信息到listItem
-//     if (settings.servo1) {
-//         listItem.innerHTML += `Servo 1 - Start Angle: ${settings.servo1.startAngle}, End Angle: ${settings.servo1.endAngle}, Speed: ${settings.servo1.speed}, Times: ${settings.servo1.times}, Direction Interval: ${settings.servo1.directionInterval}, Loop Interval: ${settings.servo1.loopInterval}<br>`;
-//     }
-//     if (settings.servo2) {
-//         listItem.innerHTML += `Servo 2 - Start Angle: ${settings.servo2.startAngle}, End Angle: ${settings.servo2.endAngle}, Speed: ${settings.servo2.speed}, Times: ${settings.servo2.times}, Direction Interval: ${settings.servo2.directionInterval}, Loop Interval: ${settings.servo2.loopInterval}<br>`;
-//     }
-
-//     // 创建Apply按钮
-//     const applyBtn = document.createElement('button');
-//     applyBtn.textContent = 'Apply';
-//     applyBtn.onclick = function() {
-//         applySettings(settings);
-//     };
-
-//     // 创建Delete按钮
-//     const deleteBtn = document.createElement('button');
-//     deleteBtn.textContent = 'Delete';
-//     // deleteBtn.onclick = function() {
-//     //     deleteRecord(index);
-//     //     // 确保删除后能刷新历史记录列表
-//     //     reloadHistoryList();
-//     // };
-
-//        // 创建checkbox
-//     const checkbox = document.createElement('input');
-//     checkbox.type = 'checkbox';
-//     checkbox.classList.add('recordCheckbox');
-//     if (index !== null) {
-//         checkbox.dataset.index = index; // 设置数据索引
-//     } else {
-//         const history = JSON.parse(localStorage.getItem('settingsHistory')) || [];
-//         checkbox.dataset.index = history.length - 1; // 对于新添加的记录，使用最新的索引
-//     }
-
-
-//         // 添加复选框到列表项
-//         listItem.appendChild(checkbox);
-
-//     // 将按钮添加到列表项
-//     listItem.appendChild(applyBtn);
-//     listItem.appendChild(deleteBtn);
-
-//     // 将列表项添加到历史记录列表中
-//     historyList.appendChild(listItem);
-
-// }
-
-// function updateHistoryList(settings, index) {
-//     const historyList = document.getElementById('historyList');
-
-//     // 创建新的列表项
-//     const listItem = document.createElement('li');
-//     listItem.classList.add('record-item'); // 添加类名以便于 CSS 样式化
-
-//     // 构建列表项的 HTML
-//     let listItemHTML = `
-//         <input type="checkbox" class="recordCheckbox" ${index !== null ? `data-index="${index}"` : ''}>
-//         <div class="record-name">${settings.name || 'Unnamed Record'}</div>
-//         <div class="record-details">
-//             ${settings.servo1 ? `Servo 1 - Start Angle: ${settings.servo1.startAngle}, End Angle: ${settings.servo1.endAngle}` : ''}
-//             ${settings.servo2 ? ` | Servo 2 - Start Angle: ${settings.servo2.startAngle}, End Angle: ${settings.servo2.endAngle}` : ''}
-//         </div>
-//         <button class="applyBtn">Apply</button>
-//         <button class="deleteBtn" onclick="deleteRecord(${index}); reloadHistoryList();">Delete</button>
-//     `;
-
-//     // 将 HTML 设置给列表项
-//     listItem.innerHTML = listItemHTML;
-
-//     // 将列表项添加到历史记录列表中
-//     historyList.appendChild(listItem);
-// }
 
 function updateHistoryList(settings, index) {
     const historyList = document.getElementById('historyList');
