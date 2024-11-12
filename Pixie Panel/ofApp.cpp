@@ -161,24 +161,6 @@ void ofApp::draw() {
                     // Info
                     std::ostringstream oss;
                     oss << "Hand " << (hand->getType() == eLeapHandType_Left ? "LEFT" : "RIGHT") << std::endl;
-//                    << "Palm Acceleration (X, Y) = " << ofToString(currentAcceleration.x, 2) << ", "
-//                    << ofToString(currentAcceleration.y, 2) << std::endl
-//                    << "Palm Velocity (X, Y) = " << ofToString(currentVelocity.x, 2) << ", "
-//                    << ofToString(currentVelocity.y, 2) << std::endl
-//                    << "Pinch Distance = " << ofToString(hand->getPinchDistance(), 2) << ", Strength = " << ofToString(hand->getPinchStrength(), 2) << std::endl
-//                    
-//                    << "Grab Distance = " << ofToString(hand->getGrabAngle(), 2) << ", Strength = " << ofToString(hand->getGrabStrength(), 2) << std::endl
-//                    << "Palm Position (X, Y) = " << ofToString(currentPalmPosition.x, 2) << ", "
-//                    << ofToString(currentPalmPosition.y, 2) << "\n"
-//                    << "Mapped Palm Position (X, Y) = " << ofToString(mappedPalmX, 2) << ", "
-//                    << ofToString(mappedPalmY, 2) << "\n"
-//                    << "Palm Normal (X, Y) = " << ofToString(normal.x, 2) << ", "
-//                    << ofToString(normal.y, 2) << "\n"
-//                    << "Palm Direction (X, Y) = " << ofToString(direction.x, 2) << ", "
-//                    << ofToString(direction.y, 2)<< std::endl
-//                    << "Index Distal Position - X: " << distalIndexPos.x << ", Y: " << distalIndexPos.y << ", Z: " << distalIndexPos.z << std::endl
-//                    << "Thumb Distal Position - X: " << distalThumbPos.x << ", Y: " << distalThumbPos.y << ", Z: " << distalThumbPos.z << std::endl;
-                    
                     
                     std::vector<float> palmPositionsCurrentVelocity = {mappedPalmX, mappedPalmY,currentVelocity.x, currentVelocity.y};
                     sendOscMessage("/position", palmPositionsCurrentVelocity);
